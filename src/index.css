@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: "Abolition";
+  src: local("Abolition"),
+   url("./fonts/abolition.ttf") format("truetype");
+  }

@@ -1,0 +1,41 @@
+  header {
+    padding: 0;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.8);
+  }
+  
+  .intro-card {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+  }
+  
+  .btn-accent {
+    background-color: #FFBF00;
+    border-color: #FFBF00;
+    color: #000;
+  }
+  
+  .btn-accent:hover {
+    background-color: #e0ab00;
+    border-color: #e0ab00;
+    color: #000;
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+  
+  .social-btn {
+    border-radius: 50%;
+  }
+  
+  .section-title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
