@@ -89,7 +89,7 @@ function Profile(props){
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div>
-          <UserImage email={user.email} size="normal"/>
+          {tempEmail || loggedEmail ? <UserImage email={user.email} size="normal"/> : null}
         </div>
         <div style={{display: 'flex', justifyContent: 'center'}}>
         <div style={{ marginLeft: '2rem' }}>
