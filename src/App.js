@@ -21,6 +21,8 @@ import Success from './components/Success';
 import EditProfile from './components/EditProfile';
 import ViewTicket from './components/ViewTicket';
 import CookieBanner from './components/CookieBanner';
+import AboutFYP from './components/AboutFYP';
+import Evaluation from './components/Evaluation';
 import {
   MDBNavbar,
   MDBContainer,
@@ -259,6 +261,12 @@ function App(){
 
           <div style={rightStyles}>
                   {loggedIn ? (
+                    <>
+                    <MDBNavbarItem>
+                      <MDBNavbarLink>
+                        <Link to="/about-fyp" style={linkStyles}><span style={{fontWeight: 'bold'}}>About this FYP</span></Link>
+                      </MDBNavbarLink>
+                    </MDBNavbarItem>
                     <MDBNavbarItem>
                     <MDBDropdown>
                       <MDBDropdownToggle
@@ -278,8 +286,14 @@ function App(){
                       </MDBDropdownMenu>
                     </MDBDropdown>
                   </MDBNavbarItem>
+                  </>
                   ) : (
                     <>
+                      <MDBNavbarItem>
+                        <MDBNavbarLink>
+                          <Link to="/about-fyp" style={linkStyles}><span style={{fontWeight: 'bold'}}>About this FYP</span></Link>
+                        </MDBNavbarLink>
+                      </MDBNavbarItem>
                       <MDBNavbarItem>
                         <MDBNavbarLink>
                           <Link to="/register" style={linkStyles}><span style={{fontWeight: 'bold'}}>Register</span></Link>
@@ -327,6 +341,8 @@ function App(){
         <Route path="/edit-profile" element={<EditProfile/>}/>
         <Route path="/contact" element={<ContactForm/>}/>
         <Route path="/view-ticket/:ticketId" element={<ViewTicket/>} />
+        <Route path="/about-fyp" element={<AboutFYP/>} />
+        <Route path="/evaluation" element={<Evaluation/>} />
       </Routes>
       </Router>
       <CookieBanner />

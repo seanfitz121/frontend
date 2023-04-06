@@ -1,0 +1,102 @@
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+  }
+  
+  .about-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .about-author {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #666;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .about-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .about-section h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .about-section p {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #666;
+    line-height: 1.5;
+    text-align: justify;
+  }
+
+  .about-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+.key-points-list {
+    list-style-type: disc;
+    padding-left: 1rem;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  .key-points-list li {
+    margin-bottom: 0.5rem;
+  }
+  
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+    color: #333;
+  }
+
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    gap: 1rem; /* Adjust the gap between images as needed */
+  }
+  
+  .sample-image {
+    width: 100px; /* Adjust the width as needed */
+    height: auto;
+    border-radius: 5px; /* Add a border-radius if desired */
+  }
+  
+  
+  
