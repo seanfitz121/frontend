@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AddResultForm.css';
+import { toast } from "react-toastify";
 
 function AddResultForm({ eventName }) {
   const [formData, setFormData] = useState({ user_id: '', user_name: '', position: '', time: '' });
@@ -14,11 +15,12 @@ function AddResultForm({ eventName }) {
     axios
       .put(`http://localhost:8000/api/events/${eventName}/add_result`, formData)
       .then((response) => {
-        alert(response.data.detail);
+        toast.success(`Result added successfully!`)
         setFormData({ user_id: '', user_name: '', position: '', time: '' });
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Failed to add result, please try again.")
       });
   };
 

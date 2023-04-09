@@ -9,16 +9,16 @@ import { useNavigate } from 'react-router-dom';
 function Events(){
 
   {/**Filter states */}
-  const [search, setSearch] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [nameFilter, setNameFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+
+  // Add states for locations and categories
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [types, setTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState('');
-  const [levels, setLevels] = useState([]);
-  const [selectedLevel, setSelectedLevel] = useState('');
+
   {/**End of filter states */}
     
   const [eventList, setEventList] = useState([{}])
@@ -27,6 +27,19 @@ function Events(){
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 9;
 
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/locations").then((res) => {
+      setLocations(res.data);
+    });
+
+    axios.get("http://localhost:8000/api/categories").then((res) => {
+      setCategories(res.data);
+    });
+  }, []);
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
   
 
   function setEventWidth(length) {
@@ -41,61 +54,24 @@ function Events(){
     
     
   useEffect(() => {
-    axios.get('http://localhost:8000/api/events')
-      .then(res => {
-        setEventList(res.data)
-      })
-  
-    const containerWidth = document.getElementById('event-container').offsetWidth;
-    setEventWidth(getEventWidth(eventList.length, containerWidth));
-  }, []);
-
-  {/**UseEffects for filters */}
-  useEffect(() => {
-    axios.all([
-      axios.get('http://localhost:8000/api/locations'),
-      axios.get('http://localhost:8000/api/categories'),
-      axios.get('http://localhost:8000/api/types'),
-      axios.get('http://localhost:8000/api/levels')
-    ])
-    .then(axios.spread((locationsRes, categoriesRes, typesRes, levelsRes) => {
-      setLocations(locationsRes.data);
-      setCategories(categoriesRes.data);
-      setTypes(typesRes.data);
-      setLevels(levelsRes.data);
-    }));
-  }, []);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams({
-      search,
-      location: selectedLocation,
-      date: selectedDate,
-      category: selectedCategory,
-      type: selectedType,
-      level: selectedLevel,
-    });
-
-    axios.get(`http://localhost:8000/api/events?${queryParams.toString()}`)
-    .then(res => {
-      setEventList(res.data);
-    });
-    if (eventName) {
-      console.log('UseEffect Event called');
-      axios.get(`http://localhost:8000/api/events${eventName}`)
-        .then(response => {
-          console.log(response.data);
-          Cookies.set('eventName', eventName);
-          navigate(`/event`);
+    axios.get("http://localhost:8000/api/events").then((res) => {
+      setEventList(
+        res.data.filter((event) => {
+          return (
+            event.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
+            event.category.toLowerCase().includes(categoryFilter.toLowerCase()) &&
+            event.location.toLowerCase().includes(locationFilter.toLowerCase()) &&
+            (dateFilter === "" ||
+              new Date(event.event_start).toDateString() ===
+                new Date(dateFilter).toDateString())
+          );
         })
-        .catch(error => {
-          console.log(error);
-        });
-      }
-      const containerWidth = document.getElementById('event-container').offsetWidth;
-      setEventWidth(getEventWidth(eventList.length, containerWidth));
-    }, [search, selectedLocation, selectedDate, selectedCategory, selectedType, selectedLevel]);
+      );
+    });
 
+    const containerWidth = document.getElementById("event-container").offsetWidth;
+    setEventWidth(getEventWidth(eventList.length, containerWidth));
+  }, [nameFilter, categoryFilter, locationFilter, dateFilter]);
 
     useEffect(() => {
       if (eventName) {
@@ -158,74 +134,67 @@ function Events(){
 
     return (
       <div>
-        <h3 style={{ marginLeft: "auto", width: "50%" }}>Events</h3>
-        <div style={{ marginBottom: '1rem', maxWidth: '1200px', margin: 'auto' }}>
-        <form onSubmit={(e) => e.preventDefault()}>
-  <input
-    type="text"
-    placeholder="Search"
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
-  {locations.length > 0 && (
-    <select
-      value={selectedLocation}
-      onChange={(e) => setSelectedLocation(e.target.value)}
-    >
-      <option value="">All Locations</option>
-      {locations.map((location) => (
-        <option key={location} value={location}>
-          {location}
-        </option>
-      ))}
-    </select>
-  )}
-  <input
-    type="date"
-    value={selectedDate}
-    onChange={(e) => setSelectedDate(e.target.value)}
-  />
-  {categories.length > 0 && (
-    <select
-      value={selectedCategory}
-      onChange={(e) => setSelectedCategory(e.target.value)}
-    >
-      <option value="">All Categories</option>
-      {categories.map((category) => (
-        <option key={category} value={category}>
-          {category}
-        </option>
-      ))}
-    </select>
-  )}
-  {types.length > 0 && (
-    <select
-      value={selectedType}
-      onChange={(e) => setSelectedType(e.target.value)}
-    >
-      <option value="">All Types</option>
-      {types.map((type) => (
-        <option key={type} value={type}>
-          {type}
-        </option>
-      ))}
-    </select>
-  )}
-  {levels.length > 0 && (
-    <select
-      value={selectedLevel}
-      onChange={(e) => setSelectedLevel(e.target.value)}
-    >
-      <option value="">All Levels</option>
-      {levels.map((level) => (
-        <option key={level} value={level}>
-          {level}
-        </option>
-      ))}
-    </select>
-  )}
-</form>
-  </div>
+        <h3 style={{ textAlign: "center", width: "100%" }}>Events</h3>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1200px', margin: 'auto' }}>
+      <button onClick={toggleFilters} style={{ width: '10%',
+    padding: '0.5rem',
+    margin: '1rem 0',
+    fontSize: '1rem',
+    backgroundColor: '#FFBF00',
+    color: 'black',
+    fontWeight: 'bold',
+    border: 'none',
+    borderRadius: '0.5rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s ease',
+    whiteSpace: 'normal', 
+    overflow: 'hidden', 
+    textOverflow: 'ellipsis' }}>
+        {showFilters ? 'Hide Filters' : 'Show Filters'}
+      </button>
+      {showFilters && (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="Event Name"
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            style={{ marginRight: '1rem', border: 'none', borderBottom: '1px solid black', outline: 'none', fontSize: '1.2rem', padding: '0.5rem 0', width: '15rem' }}
+          />
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            style={{ marginRight: '1rem', border: 'none', borderBottom: '1px solid black', outline: 'none', fontSize: '1.2rem', padding: '0.5rem 0', width: '15rem' }}
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          <select
+            value={locationFilter}
+            onChange={(e) => setLocationFilter(e.target.value)}
+            style={{ marginRight: '1rem', border: 'none', borderBottom: '1px solid black', outline: 'none', fontSize: '1.2rem', padding: '0.5rem 0', width: '15rem' }}
+          >
+            <option value="">Select Location</option>
+            {locations.map((location) => (
+              <option key={location} value={location}>
+                {location}
+              </option>
+            ))}
+          </select>
+          <input
+            type="date"
+            value={dateFilter}
+            onChange={(e) => setDateFilter(e.target.value)}
+            style={{ border: 'none', borderBottom: '1px solid black', outline: 'none', fontSize: '1.2rem', padding: '0.5rem 0', width: '10rem' }}
+          />
+        </div>
+      )}
+    </div>
+
         <div
         id="event-container"
         style={{
@@ -233,7 +202,7 @@ function Events(){
           flexWrap: "wrap",
           margin: "auto",
           width: "100%",
-          maxWidth: "1200px", // Set a maximum width for the container
+          maxWidth: "1200px",
           justifyContent: "space-between",
         }}
       >

@@ -9,13 +9,17 @@ import { useLoadScript } from '@react-google-maps/api';
 import EventResult from './EventResult';
 import "./EventResults.css";
 import AddResultForm from './AddResultForm';
+import { loadStripe } from '@stripe/stripe-js';
 
 function Event(props){
+  const stripePromise = loadStripe("pk_test_51MgUmdAg9Km0gzmpAMvSEzj6g5jaRKOMMcattDOWJT6z2c7tvZ7md19FUPuLYo4HBjCHzYfA51bRLFERxxGKWnH900GzRljqGT");
   const { isLoaded } = useLoadScript({googleMapsApiKey: "AIzaSyCyClGli0gh0OB5AnwKUpisdiz3PQLUzdg",})
   const apiKey = 'AIzaSyCyClGli0gh0OB5AnwKUpisdiz3PQLUzdg';
   const tempEventName = Cookies.get('eventName')
   console.log(tempEventName)
   {/**Place alternative event const here */}
+  const [clientSecret, setClientSecret] = useState('');
+
 
   const [event, setEvent] = useState({})
   const [view, setView] = useState('details');
@@ -34,6 +38,7 @@ function Event(props){
       .then(response => {
         setEvent(response.data);
         Cookies.remove('eventName');
+        
       })
       .catch(error => {
         console.log(error);
@@ -109,13 +114,39 @@ function Event(props){
 
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
-  const handleButtonMouseEnter = () => {
+  const handleButtonMouseEnter = async () => {
     setIsButtonHovered(true);
+    if (!stripePromise) {
+      stripePromise = loadStripe('pk_test_51MgUmdAg9Km0gzmpAMvSEzj6g5jaRKOMMcattDOWJT6z2c7tvZ7md19FUPuLYo4HBjCHzYfA51bRLFERxxGKWnH900GzRljqGT');
+    }
+    const response = await axios.post('http://localhost:8000/create-payment-intent2', {
+      items: [{ price: event.fee.amount * 100, quantity: 1 }],
+    });
+    setClientSecret(response.data.clientSecret);
   };
+
+  const handleButtonClick = async () => {
+    const stripe = await stripePromise;
+    const { error } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: {
+          name: 'Cardholder Name',
+        },
+      },
+    });
+    if (error) {
+      console.error(error);
+    } else {
+      console.log('Payment succeeded');
+    }
+  };
+  
   
   const handleButtonMouseLeave = () => {
     setIsButtonHovered(false);
+    stripePromise = null;
   };
+  
 
   buttonStyle.backgroundColor = isButtonHovered ? buttonHoverStyle.backgroundColor : buttonStyle.backgroundColor;
   buttonStyle.color = isButtonHovered ? buttonHoverStyle.color : buttonStyle.color;
@@ -185,6 +216,12 @@ function Event(props){
       </div>
       <div style={profileDetailStyles}>
         <div style={{display: 'flex', alignItems: 'center'}}>
+          <span style={profileDetailLabelStyles}>Event Fee:</span>
+          <p style={{marginLeft: '1rem'}}>{event.fee && `€${event.fee.amount.toString()}`}</p>
+        </div>
+      </div>
+      <div style={profileDetailStyles}>
+        <div style={{display: 'flex', alignItems: 'center'}}>
           <span style={profileDetailLabelStyles}>Event Start Date/Time:</span>
           <p style={{marginLeft: '1rem'}}>{formattedStartTime}</p>
         </div>
@@ -202,9 +239,11 @@ function Event(props){
         </div>
       </div>
       <div>
-        <button type="submit" style={buttonStyle} onMouseEnter={handleButtonMouseEnter} onMouseLeave={handleButtonMouseLeave}>Register for Event</button>
+        <button type="submit" style={buttonStyle} onClick={handleButtonClick} onMouseEnter={handleButtonMouseEnter} onMouseLeave={handleButtonMouseLeave}>Register for Event: {event.fee && `€${event.fee.amount.toString()}`}
+</button>
       </div>
     </div>
+    
       <div style={{ padding: '40px', margin: 'auto' }}>
         {!isLoaded ? 
         <div>Loading.....</div> : <Map eventLoc={event.location}/>}

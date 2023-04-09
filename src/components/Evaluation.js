@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './AboutFYP.css';
 
-function AboutFYP() {
+function Evaluation() {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const handleButtonMouseEnter = () => {
@@ -105,4 +105,4 @@ function AboutFYP() {
 );
 }
 
-export default AboutFYP;
+export default Evaluation;
