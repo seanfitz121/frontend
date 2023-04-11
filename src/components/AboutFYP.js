@@ -45,7 +45,20 @@ function AboutFYP() {
         </ul>
       </div>
       <div className="about-section">
-        <h3>New Technologies</h3>
+        <h3>State-of-the-Art</h3>
+        <p>Lots of research into state-of-the-art topics, such as what coding languages or frameworks to use, and what security standards are applicable for web-apps. Some of the key findings from that stage of the project were as follows:</p>
+        <ul className="key-points-list">
+          <li>Security principles outlined by OWASP, a trusted foundation devoted to web-app security</li>
+          <li>MVC; Model-View-Controller, a software architectural pattern allowing for development of a maintainable, scalable system with separation of concerns</li>
+          <li>Framework comparisons; comparing popular languages and frameworks to decide which suits the project best. Comparing speed, ease of use, documentation with evidence from various studies/papers</li>
+        </ul>
+      </div>
+      <div className="about-section">
+        <h3>Real-World Stakeholders</h3>
+        <p>The project involved collaboration with a startup, Z12 Performance, led by James Mangan. Z12 gave insight and feedback throughout the process, making the design and development of the project more meaningful, as I had consistent insight into what stakeholder requirements were at all times. If features implemented, feedback could be attained from James through meetings to gauge progress.</p>
+      </div>
+      <div className="about-section">
+        <h3>Modern Technologies</h3>
         <p>Used various emerging technologies, including popular frameworks and more recent frameworks, which have not been covered in the undergraduate syllabus</p>
         <ul className="key-points-list">
           <li>React.js
@@ -74,6 +87,8 @@ function AboutFYP() {
           </li>
           
         </ul>
+        <p>Also made use of APIs such as Stripe for payments, Google Maps for location servicing, and Twilio SendGrid for email authentication and notifications.</p>
+        <p>Reasoning for choices evident in report, but generally due to speed, documentation and rapid-application-development.</p>
       </div>
       <div className="about-section">
         <h3>Functional Requirements</h3>
@@ -89,8 +104,14 @@ function AboutFYP() {
         </ul>
       </div>
       <div className="about-section">
-        <h3>Dealing with Stakeholders</h3>
-        <p>This project was carried out in collaboration with a local start-up company, Z12 Performance, overseen by James Mangan, a renowned rowing coach. Throughout the process of development, prototypes were shown to James, and feedback was given based on what should change, or what is missing from the web-app. This collaboration with stakeholders allowed for an accurate, useful prototype to be developed and designed.</p>
+        <h3>Design Process</h3>
+        <p>Crucial stage in development was design process, involving communication with startup to decide on requirements seen above. James Mangan shared flow charts to understand expected functionality of the webapp. Various wireframes and prototype page designs were also developed to model the look of the webapp before development.</p>
+        <ul className="key-points-list">
+          <li><a href="/">Home page</a>: User lands here when loading the web-app</li>
+          <li><a href="/events">Events</a>: See all events received from the database. Uses pagination, a method of splitting results into numerous pages for a simplified and clean view. Also see event information/results for any events</li>
+          <li><a href="/adminPanel">Admin Panel</a>: Administrator can use functionality such as approving events, quick-access, removing users, support tickets and so on</li>
+          <li><a href="/store">Store</a>: Users can use the store to purchase photographs relating to events, as uploaded by photographers using the <a href="/product-upload">Photographer submission</a></li>
+        </ul>
     </div>
   <div className="about-section">
     <h3>Evaluation/Findings</h3>

@@ -97,6 +97,24 @@
     height: auto;
     border-radius: 5px; /* Add a border-radius if desired */
   }
+
+  .caption-opacity {
+    opacity: 0.8; /* set the opacity of the caption */
+    color: #fff; /* set the color of the caption text */
+  }
   
+  .caption-small {
+    font-size: 14px; /* set smaller font size for the title */
+  }
   
-  
+  .caption-box {
+    background-color: rgba(0, 0, 0, 0.8); /* set the background color with opacity */
+    padding: 5px; /* add smaller padding to the caption */
+    border-radius: 5px; /* add rounded corners to the caption */
+    max-width: 400px; /* set the maximum width of the black box */
+    margin: auto; /* center the black box horizontally */
+}
+
+.control-opacity {
+  opacity: 0.8; /* set the opacity of the next/prev buttons */
+}

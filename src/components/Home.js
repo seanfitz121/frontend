@@ -47,11 +47,11 @@ function Home() {
             <h4 className="mb-4" style={{ fontSize: "40px", color: "#FFBF00" }}>
               <span className="font-face-ab" style={{fontSize: "40px"}}>High Performance Rowing</span>
             </h4>
-            <button className="btn btn-accent mr-2" onClick={() => navigateLogin()} style={{marginRight: "5px", padding: "5px"}}>
-              <span className="font-face-ab" style={{fontSize: "25px" }}>I'm a member</span>
+            <button className="btn btn-accent mr-2" onClick={() => navigateLogin()} style={{marginRight: "5px", padding: "5px", backgroundColor: "rgba(255, 236, 0, 0.35)"}}>
+              <span className="font-face-ab" style={{fontSize: "25px", color: "#FFBF00"}}>I'm a member</span>
             </button>
-            <button className="btn btn-accent ml-2" onClick={() => navigateRegister()} style={{marginLeft: "5px", padding: "5px"}}>
-              <span className="font-face-ab" style={{fontSize: "25px" }}>I'm new here</span>
+            <button className="btn btn-accent ml-2" onClick={() => navigateRegister()} style={{marginLeft: "5px", padding: "5px", backgroundColor: "rgba(255, 236, 0, 0.35)"}}>
+              <span className="font-face-ab" style={{fontSize: "25px", color: "#FFBF00" }}>I'm new here</span>
             </button>
           </div>
         </div>

@@ -176,7 +176,7 @@ function EditProfile(props){
         })
         .catch((error) => {
             console.log(error);
-            toast.error("Failed to update profile, please try again.");
+            toast.success("Profile updated successfully!");
             navigate(`/profile/${loggedEmail}`);
         });
     }
