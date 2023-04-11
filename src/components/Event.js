@@ -34,7 +34,7 @@ function Event(props){
 
   useEffect(() => {
     if(tempEventName){
-      axios.get(`http://localhost:8000/api/events${tempEventName}`)
+      axios.get(`http://localhost:8000/api/events/by-name/${tempEventName}`)
       .then(response => {
         setEvent(response.data);
         Cookies.remove('eventName');

@@ -12,7 +12,7 @@ const EventResult = ({ eventName, isAdmin }) => {
 
   const fetchEventData = async (eventName) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/events${eventName}`);
+      const response = await fetch(`http://localhost:8000/api/events/by-name/${eventName}`);
       const data = await response.json();
       setEventData(data);
     } catch (err) {

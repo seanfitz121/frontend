@@ -76,12 +76,13 @@ function App(){
         setResults(res.data)
         console.log(res.data)
     })
-    axios.get(`http://localhost:8000/api/events?approved=false`)
+    axios.get("http://localhost:8000/api/events/by-approval?approved=false")
     .then(res => {
-      console.log(res.data)
-      setApprovalList(res.data)
-      console.log(approvalList)
-    })
+      console.log(res.data);
+      setApprovalList(res.data);
+      console.log(approvalList);
+    });
+
     const sessionID = Cookies.get('sessionId');
     if (sessionID) {
       setLoggedIn(true);

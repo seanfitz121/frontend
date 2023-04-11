@@ -58,6 +58,7 @@ function Events(){
       setEventList(
         res.data.filter((event) => {
           return (
+            event.approved === true &&
             event.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
             event.category.toLowerCase().includes(categoryFilter.toLowerCase()) &&
             event.location.toLowerCase().includes(locationFilter.toLowerCase()) &&
@@ -76,7 +77,7 @@ function Events(){
     useEffect(() => {
       if (eventName) {
         console.log('UseEffect Event called');
-        axios.get(`http://localhost:8000/api/events${eventName}`)
+        axios.get(`http://localhost:8000/api/events/by-name/${eventName}`)
           .then(response => {
             console.log(response.data);
             Cookies.set('eventName', eventName);

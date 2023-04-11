@@ -84,6 +84,8 @@ function EditProfile(props){
         }
       });
       console.log(response.data);
+      toast.success("Image updated successfully!");
+      navigate(`/profile/${loggedEmail}`);
     } catch (error) {
       console.error(error);
     }

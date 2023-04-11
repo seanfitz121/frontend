@@ -175,7 +175,7 @@ function AdminPanel(props){
       {/**Event Navigation here */}
       if(eventToView){
         console.log('UseEffect Event called')
-        axios.get(`http://localhost:8000/api/events${eventToView}`)
+        axios.get(`http://localhost:8000/api/events/by-name/${eventToView}`)
         .then(response => {
           console.log(response.data)
           Cookies.set('eventName', eventToView);
@@ -420,27 +420,26 @@ function AdminPanel(props){
             </thead>
             <tbody>
               {props.approvalList.map(approvalItem => (
-                  <>
+                <>
                   <tr key={approvalItem.name}>
-                  <td >
-                    {approvalItem.name}
-                  </td>
-                  <td >
-                    {approvalItem.approved.toString()}
-                  </td>
-                  
-                  <td >
-                    <input
-                      type="checkbox"
-                      onChange={() => handleCheckboxChangeApprove(approvalItem.name)}
-                      checked={checkedEventAppNames.includes(approvalItem.name)}
-                    />
-                  </td>
-                </tr>             
+                    <td>
+                      {approvalItem.name}
+                    </td>
+                    <td>
+                      {approvalItem.approved !== undefined ? approvalItem.approved.toString() : ""}
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        onChange={() => handleCheckboxChangeApprove(approvalItem.name)}
+                        checked={checkedEventAppNames.includes(approvalItem.name)}
+                      />
+                    </td>
+                  </tr>
                 </>
               ))}
-              
             </tbody>
+
           </table>
           </div>
           </div>
