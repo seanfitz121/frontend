@@ -34,6 +34,7 @@ function AboutFYP() {
       <div className="about-section">
         <h3>Title</h3>
         <p>Event Management Web-App for High-Performance Athletes</p>
+        <p>Web-app to be used by rowers to register for events, visualise event information. Collaborated with Z12 Performance, a local startup, and James Mangan, a renowned rowing coach.</p>
       </div>
       <div className="about-section">
         <h3>Key Points</h3>

@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AccessDenied from './AccessDenied';
 import SupportTickets from './SupportTickets';
 import Modal from 'react-modal';
+import FastestTimesChart from './FastestTimesChart';
 
 function AdminPanel(props){
   const [search, setSearch] = useState('');
@@ -28,7 +29,7 @@ function AdminPanel(props){
   const [userData, setUserData] = useState([{}]);
   const [eventName, setEventName] = useState(null);
   const [activeTab, setActiveTab] = useState("tab1");
-  const [activeTab2, setActiveTab2] = useState("tab1");
+  const [activeTab2, setActiveTab2] = useState("tab2");
   const [checkedUserEmails, setCheckedUserEmails] = useState([]);
   const [checkedEventNames, setCheckedEventNames] = useState([]);
   const [checkedEventAppNames, setCheckedEventAppNames] = useState([]);
@@ -545,7 +546,7 @@ function AdminPanel(props){
                 <section style={{ margin: "20px 0" }}>
                   <h2>Best Times Past Month</h2>
                   <div style={{ height: "75vh", overflow: "scroll" }}>
-                    <RaceTimesChart />
+                    
                   </div>
                 </section>
               </Tab.Pane>
@@ -581,49 +582,71 @@ function AdminPanel(props){
 };
 
 export function EventGraph(){
-  const [count, setCount] = useState(0);
+  const [counts, setCounts] = useState({});
 
   useEffect(() => {
-    async function fetchData(){
-      const response = await axios.get("http://localhost:8000/count");
-      const data = response.data
-      setCount(data.count);
-      console.log(count)
+    async function fetchData() {
+      const response = await axios.get('http://localhost:8000/count');
+      const data = response.data;
+
+      // Create a new dataset with the counts for all locations
+      const labels = Object.keys(data);
+      const dataPoints = Object.values(data);
+      const backgroundColors = Array.from({ length: labels.length }, () =>
+        getRandomColor()
+      );
+      const newDataset = {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Event Occurrence',
+            data: dataPoints,
+            backgroundColor: backgroundColors,
+            borderWidth: 1
+          }
+        ]
+      };
+
+      // Update the state variable with the new dataset
+      setCounts(newDataset);
     }
+
     fetchData();
   }, []);
 
-  const data = {
-    labels: ["Limerick"],
-    datasets: [
-      {
-        label: "Event Occurrence",
-        data: [count],
-        fill: false,
-        borderColor: "rgba(75,192,192,1)",
-      },
-    ],
-  };
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   const options = {
-    scales:{
+    maintainAspectRatio: true,
+    scales: {
       yAxes: [
         {
           ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
+            beginAtZero: true
+          }
+        }
+      ]
+    }
   };
 
-  return(
-    <div>
-      <h5>Event Occurence Specific to Location</h5>
-      <Bar data={data} options={options}/>
+  return (
+    <div style={{ height: '400px', width: "100%" }}>
+      <h5>Event Occurrence Specific to Location</h5>
+      <div style={{ height: '100%' }}>
+        {counts.datasets && <Bar data={counts} options={options} />}
+      </div>
     </div>
   );
 }
+
+
 
 export function EventGraph1(){
   const [times, setTimes] = useState([]);
@@ -715,7 +738,7 @@ export function RaceTimeGraph(){
   const tempEventName = "Annual Regatta Limerick"
   const [eventData2, setEventData2] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/events${tempEventName}`)
+    axios.get(`http://localhost:8000/api/events/by-name/${tempEventName}`)
     .then(response => setEventData2(response.data))
     .catch(error => console.log(error));
   }, []);

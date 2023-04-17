@@ -10,6 +10,7 @@ import EventResult from './EventResult';
 import "./EventResults.css";
 import AddResultForm from './AddResultForm';
 import { loadStripe } from '@stripe/stripe-js';
+import { useNavigate } from 'react-router-dom';
 
 function Event(props){
   const stripePromise = loadStripe("pk_test_51MgUmdAg9Km0gzmpAMvSEzj6g5jaRKOMMcattDOWJT6z2c7tvZ7md19FUPuLYo4HBjCHzYfA51bRLFERxxGKWnH900GzRljqGT");
@@ -19,7 +20,7 @@ function Event(props){
   console.log(tempEventName)
   {/**Place alternative event const here */}
   const [clientSecret, setClientSecret] = useState('');
-
+  const navigate = useNavigate();
 
   const [event, setEvent] = useState({})
   const [view, setView] = useState('details');
@@ -126,19 +127,7 @@ function Event(props){
   };
 
   const handleButtonClick = async () => {
-    const stripe = await stripePromise;
-    const { error } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: {
-          name: 'Cardholder Name',
-        },
-      },
-    });
-    if (error) {
-      console.error(error);
-    } else {
-      console.log('Payment succeeded');
-    }
+    navigate(`/payment-complete`);
   };
   
   
